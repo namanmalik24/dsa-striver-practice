@@ -1,0 +1,32 @@
+#include <iostream>
+#include<vector>
+#include<string>
+using namespace std;
+
+bool fun(int i, int j, string &s)
+{
+    if(s[i]!=s[j])
+    {
+        return false;
+    }
+    
+    if(i>j)
+    {
+        return true;
+    }
+    
+    return fun(++i, --j, s);
+}
+
+int main() {
+    
+    string s;
+    
+    s="namam";
+    int j = s.size();
+    cout<<fun(0,j-1, s);
+    
+ 
+
+    return 0;
+}

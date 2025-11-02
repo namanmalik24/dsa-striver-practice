@@ -1,0 +1,38 @@
+#include <iostream>
+#include<vector>
+using namespace std;
+
+void printt(vector<int>&v)
+{
+    int n = v.size();
+    for(int i=0;i<n;i++)
+    {
+        cout<<v[i]<<endl;
+    }
+}
+
+void fun(int i, int j, vector<int>&v)
+{
+    if(i>j)
+    {
+        return;
+    }
+    swap(v[i],v[j]);
+    i++;
+    j--;
+    fun(i, j, v);
+    
+    
+}
+
+int main() {
+    
+    vector<int> v = {1,2,3,4};
+    int n = v.size();
+    printt(v);
+    cout<<endl;
+    fun(0,n-1,v);
+    printt(v);
+
+    return 0;
+}

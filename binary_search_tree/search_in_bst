@@ -1,0 +1,20 @@
+class Solution {
+public:
+    TreeNode* fun(TreeNode* root, int val) {
+        if (root == nullptr || root->val == val) {
+            return root;
+        } 
+        
+        else if (root->val < val) {
+            return fun(root->right, val);
+        } 
+        
+        else {
+            return fun(root->left, val);
+        }
+    }
+
+    TreeNode* searchBST(TreeNode* root, int val) { 
+        return fun(root, val); 
+    }
+};

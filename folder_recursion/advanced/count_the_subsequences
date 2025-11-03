@@ -1,0 +1,63 @@
+//here we will count the number of subsequences
+#include <iostream>
+#include <vector>
+#include <string> // This include isn't used, but was in your original
+using namespace std;
+
+//all subsequences will be printed AND counted
+int printt(int i, vector<int>&ds, int s, int sum, int n, vector<int>&arr)
+{
+    // Base case: If we have processed all elements
+    if(i == n)
+    {
+        // Check if the current sum 's' matches the target 'sum'
+        if(s == sum)
+        {
+            // Print the subsequence
+            for(auto it: ds)
+            {
+                cout << it << " ";
+            }
+            cout << endl;
+            // Return 1 to signal "one valid subsequence found"
+            return 1; 
+        }
+        // Return 0 to signal "no valid subsequence found on this path"
+        else return 0; 
+    }
+    
+    // --- "Take" or "Include" arr[i] ---
+    ds.push_back(arr[i]);
+    s = s + arr[i];
+    
+    // l = count from the "take" path
+    int l = printt(i + 1, ds, s, sum, n, arr);
+    
+    // --- Backtrack ---
+    s = s - arr[i];
+    ds.pop_back();
+    
+    // --- "Not Take" or "Exclude" arr[i] ---
+    // r = count from the "not take" path
+    int r = printt(i + 1, ds, s, sum, n, arr);
+    
+    // Return the total count from both paths
+    return l + r;
+}
+
+int main() {
+    
+    vector<int> ds;
+    vector<int> arr = {1, 2, 1};
+    int n = arr.size();
+    int sum = 2;
+    
+    // Store the returned count in a variable
+    int totalCount = printt(0, ds, 0, sum, n, arr);
+    
+    // Print the total count
+    cout << "Total subsequences found: " << totalCount << endl;
+    cout << "finished";
+    
+    return 0;
+}

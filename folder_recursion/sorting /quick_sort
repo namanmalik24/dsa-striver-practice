@@ -1,0 +1,68 @@
+#include<iostream>
+#include<vector>
+#include<algorithm> // for swap
+
+using namespace std;
+
+//quick sort.
+
+int partition(vector<int>&arr, int low, int high)
+{
+    int pivot = arr[high];
+    int i = low - 1;
+
+    for(int j = low; j < high; j++)
+    {
+        if(arr[j] < pivot)
+        {
+            i++;
+            swap(arr[i], arr[j]);
+        }
+    }
+    swap(arr[i + 1], arr[high]);
+    return i + 1;
+}
+
+// *** CORRECTED THIS FUNCTION ***
+// Changed return type to void
+void qs(vector<int>&arr, int low, int high)
+{
+    if(low >= high)
+    {
+        return; // Base case
+    }
+
+    // Call partition to get the pivot's correct index
+    int p_index = partition(arr, low, high);
+
+    // Recurse on the left and right halves
+    qs(arr, low, p_index - 1);
+    qs(arr, p_index + 1, high);
+}
+
+vector<int> quicksort(vector<int>arr)
+{
+    qs(arr, 0, arr.size() - 1);
+    return arr;
+}
+
+int main()
+{
+    vector<int> arr = {9, 4, 7, 6, 3, 1, 5, 2, 8};
+    
+    cout << "Original array: ";
+    for(int x : arr) {
+        cout << x << " ";
+    }
+    cout << endl;
+
+    vector<int> sorted_arr = quicksort(arr);
+
+    cout << "Sorted array:   ";
+    for(int x : sorted_arr) {
+        cout << x << " ";
+    }
+    cout << endl;
+   
+    return 0;
+}

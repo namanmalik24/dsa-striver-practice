@@ -1,0 +1,27 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+public:
+    // recursive helper
+    void fun(int i, const vector<int>& arr, vector<int>& ans, int n, int sum) {
+        if (i == n) {
+            ans.push_back(sum);
+            return;                // IMPORTANT: return after base case
+        }
+
+        // include arr[i]
+        fun(i + 1, arr, ans, n, sum + arr[i]);
+
+        // exclude arr[i]
+        fun(i + 1, arr, ans, n, sum);
+    }
+
+    vector<int> subsetSums(vector<int>& arr) {
+        vector<int> ans;
+        int n = arr.size();
+        fun(0, arr, ans, n, 0);
+        sort(ans.begin(), ans.end()); // optional: examples show sorted order
+        return ans;
+    }
+};

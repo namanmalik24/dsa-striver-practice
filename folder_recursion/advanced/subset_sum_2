@@ -1,0 +1,28 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+public:
+    void backtrack(int start, const vector<int>& nums, vector<int>& cur, vector<vector<int>>& res) {
+        // push current subset
+        res.push_back(cur);
+
+        int n = nums.size();
+        for (int i = start; i < n; ++i) {
+            // skip duplicates at the same recursion level
+            if (i > start && nums[i] == nums[i-1]) continue;
+
+            cur.push_back(nums[i]);
+            backtrack(i + 1, nums, cur, res);
+            cur.pop_back();
+        }
+    }
+
+    vector<vector<int>> subsetsWithDup(vector<int>& nums) {
+        sort(nums.begin(), nums.end());        // important: group duplicates
+        vector<vector<int>> res;
+        vector<int> cur;
+        backtrack(0, nums, cur, res);
+        return res;
+    }
+};

@@ -1,0 +1,59 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+public:
+    // precedence: higher number => higher precedence
+    int prec(char c) {
+        if (c == '+' || c == '-') return 1;
+        if (c == '*' || c == '/') return 2;
+        if (c == '^') return 3;
+        return 0;
+    }
+
+    string infixToPostfix(string& s) {
+        string ans = "";
+        stack<char> st;
+        int n = s.size();
+
+        for (int i = 0; i < n; ++i) {
+            char ch = s[i];
+
+            // operand (letter or digit)
+            if (isalnum((unsigned char)ch)) {
+                ans.push_back(ch);
+            }
+            else if (ch == '(') {
+                st.push(ch);
+            }
+            else if (ch == ')') {
+                // pop until '('
+                while (!st.empty() && st.top() != '(') {
+                    ans.push_back(st.top());
+                    st.pop();
+                }
+                if (!st.empty() && st.top() == '(') st.pop(); // remove '('
+            }
+            else {
+                // operator: pop while top has higher precedence
+                // For right-associative '^', do not pop when equal precedence
+                while (!st.empty() && st.top() != '(' &&
+                       (prec(st.top()) > prec(ch) ||
+                        (prec(st.top()) == prec(ch) && ch != '^'))) {
+                    ans.push_back(st.top());
+                    st.pop();
+                }
+                st.push(ch);
+            }
+        }
+
+        // flush remaining operators
+        while (!st.empty()) {
+            if (st.top() != '(' && st.top() != ')')
+                ans.push_back(st.top());
+            st.pop();
+        }
+
+        return ans;
+    }
+};
